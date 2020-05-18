@@ -1,0 +1,16 @@
+{
+  "name": "gitRobot",
+  "version": "1.0.0",
+  "description": "Robot to follow a list of developers",
+  "main": "index.js",
+  "scripts": {
+    "start":"node index.js && node giveMeBeer.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "request": "^2.88.2"
+  }
+}
