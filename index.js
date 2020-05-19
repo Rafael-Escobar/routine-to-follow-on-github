@@ -12,28 +12,45 @@ let options = {
 };
 
 const api = axios.create(options);
+/*
+    Verificação dos devs que já são seguidos
+*/
+coders.github.forEach((user, index, array) => {
 
-coders.github.forEach(async (user) => {
-
-    await api.get(`/user/following/${user}`)
-        .then(function (response) {
+    api.get(`/user/following/${user}`)
+        .then(async function  (response) {
             if (response.status == 204) {
-                console.log(`You are following *${user}* becaus de status[${response.status}] is ${response.statusText}`);
+                console.log(`Seguindo *${user}* status[${response.status}] da resposta`);
+                coders.splice(index,1);
+                await new Promise(r => setTimeout(r, 1000));
             }else{
-                console.log(`Was impossible to know if you are following *${user}* becaus de status[${response.status}] is ${response.statusText}`);
+                console.log(`Verificar status[${response.status}] da resposta`);
             }
         }).catch((error) => {
-            console.log(`You are not following *${user}* becaus de status[${error.response.status}] is ${error.response.statusText}`);
-            if (error.response.status == 404) {
-                 api.put(`/user/following/${user}`)
-                    .then(function (response) {
-                        console.log(`Now you are following *${user}* becaus de status[${response.status}] is ${response.statusText}`);
-                    }).catch((error) => {
-                        console.log(`You cant following *${user}* becaus de status[${error.response.status}] is ${error.response.statusText}`);
-                    });
-            }else{
-                console.log(`Not was possible to find *${user}* becaus de status[${error.response.status}] is ${error.response.statusText}`);
-            }
+                // console.log(`Não esta seguindo *${user}* status[${error.response.status}] da resposta`);
+                // console.log(`Não foi possível encontrar *${user}*  status[${error.response.status}] erro ${error.response.statusText}`);
+                console.log(`Não foi possível encontrar *${user}*`);
         });
 
 });
+
+/*
+    Seguir os Devs que ainda não segue
+*/
+coders.github.forEach(async (user, index, array) => {
+    await api.put(`/user/following/${user}`)
+        .then(async function (response) {
+            if (response.status == 204) {
+                console.log(`Agora esta seguindo *${user}* status[${response.status}] da resposta`);
+                coders.splice(index, 1);
+                await new Promise(r => setTimeout(r, 1000));
+            }else{
+                console.log(`Verificar status[${response.status}] da resposta`);
+            }
+        }).catch((error) => {
+            console.log(`Não foi possível seguir *${user}* `);
+            // console.log(`Não foi possível seguir *${user}* status[${error.response.status}] erro ${error.response.statusText}`);
+        });
+});
+
+// console.log(coders);
