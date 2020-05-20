@@ -1,4 +1,6 @@
+let boddy ='Rafael-Escobar'
 var axios = require('axios');
+let repos = require('./listOfRepos.json');
 let credentials = require('./credentials.json');
 let endpoint = 'https://api.github.com';
 
@@ -11,19 +13,12 @@ let options = {
 };
 
 const api = axios.create(options);
-let boddy ='Rafael-Escobar'
-let repos = [
-    'omnistack11_frontend',
-    'omnistack11_backend',
-    'omnistack11_mobile',
-    'routine-to-follow-on-github',
-] ;
 
-repos.forEach( async (repo)=>{
+repos.repositories.forEach( async (repo)=>{
     await api.get(`/user/starred/${boddy}/${repo}`)
         .then(function (response) {
             if (response.status==204){
-                    console.log(`Você já me deu estrela no repositório[${repo}]`);
+                    console.log(`Você já me deu estrela no repositório[${repo}] Muito Obrigado`);
                     console.log(`*Status[${response.status}] `);
                 }else{
                     console.log(`Não foi possível dar uma estrela para o repositório[${repo}]`);
@@ -48,3 +43,5 @@ repos.forEach( async (repo)=>{
         });
     }
 );
+
+
